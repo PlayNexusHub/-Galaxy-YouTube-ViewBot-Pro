@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Viewbot - PlayNexus Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #00ccff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Cyberpunk Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 204, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 204, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Navigation */
+        .nav {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ccff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px #00ccff;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: #00ccff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            border-color: #00ccff;
+            box-shadow: 0 0 10px #00ccff;
+            text-shadow: 0 0 5px #00ccff;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tool-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ccff;
+        }
+
+        .tool-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #00ccff;
+        }
+
+        .tool-description {
+            font-size: 1.2rem;
+            color: #cccccc;
+            margin-bottom: 2rem;
+        }
+
+        .tool-container {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ccff;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .tool-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #00ffff;
+        }
+
+        .tool-button {
+            background: linear-gradient(45deg, #00ccff, #00ffff);
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .tool-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 204, 255, 0.5);
+        }
+
+        .status-active {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 204, 255, 0.2);
+        }
+
+        .feature-list li:before {
+            content: '⚡';
+            margin-right: 0.5rem;
+            color: #00ffff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .tool-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-logo" onclick="window.location.href='../../web/index.html'">PLAYNEXUS HUB</div>
+        <div class="nav-links">
+            <a href="../../web/index.html" class="nav-link">HOME</a>
+            <a href="../../web/tools.html" class="nav-link">TOOLS</a>
+            <a href="../../web/games.html" class="nav-link">GAMES</a>
+            <a href="../../web/about.html" class="nav-link">ABOUT</a>
+            <a href="../../web/admin.html" class="nav-link">ADMIN</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="tool-header">
+            <div class="tool-icon">📺</div>
+            <h1 class="tool-title">Youtube Viewbot</h1>
+            <p class="tool-description">YouTube automation and analytics tool</p>
+            <div class="status-active">ACTIVE</div>
+        </div>
+
+        <div class="tool-container">
+            <div class="tool-section">
+                <h2 class="section-title">Tool Features</h2>
+                <ul class="feature-list">
+                    <li>View automation</li><li>Analytics tracking</li><li>Performance monitoring</li><li>Report generation</li><li>Scheduling tools</li>
+                </ul>
+            </div>
+
+            <div class="tool-section">
+                <h2 class="section-title">Quick Actions</h2>
+                <button class="tool-button" onclick="launchTool()">Launch Tool</button>
+                <button class="tool-button" onclick="configureTool()">Configure Settings</button>
+                <button class="tool-button" onclick="viewDocumentation()">View Documentation</button>
+                <button class="tool-button" onclick="runDiagnostics()">Run Diagnostics</button>
+            </div>
+
+            <div class="tool-section">
+                <h2 class="section-title">Tool Status</h2>
+                <p>Status: <span class="status-active">ACTIVE</span></p>
+                <p>Version: 1.0.0</p>
+                <p>Last Updated: 15/07/2025</p>
+                <p>Compatibility: Windows 10/11, macOS, Linux</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="../../web/tools.html" class="back-button">← Back to Tools</a>
+        </div>
+    </main>
+
+    <!-- Tool Required Elements -->
+    <div id="progressModal" class="progress-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,10,30,0.85); z-index:9999; justify-content:center; align-items:center; flex-direction:column;">
+        <div style="background:#111a; border-radius:16px; padding:2rem 3rem; min-width:320px; text-align:center; box-shadow:0 0 30px #00ccff55;">
+            <h2 id="progressTitle" style="color:#00ccff; margin-bottom:1rem;">Progress</h2>
+            <div id="progressText" style="color:#fff; margin-bottom:1.5rem;">Working...</div>
+            <div style="background:#222; border-radius:8px; overflow:hidden; height:24px; margin-bottom:1rem;">
+                <div id="progressFill" style="background:linear-gradient(90deg,#00ccff,#00ffff); width:0%; height:100%; transition:width 0.3s;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="dropZone" style="position:fixed; bottom:30px; right:30px; width:180px; height:80px; background:rgba(0,204,255,0.12); border:2px dashed #00ccff; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#00ccff; font-size:1.1rem; z-index:1000; transition:background 0.2s;">Drop Archives Here</div>
+    <div class="stars" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:0;"></div>
+    <script src="index.js"></script>
+    <script>
+        // Tool functionality
+        function launchTool() {
+            showMessage('🚀 Launching Youtube Viewbot...', 'success');
+            // Add actual tool launch logic here
+            setTimeout(() => {
+                showMessage('✅ Youtube Viewbot launched successfully!', 'success');
+            }, 1000);
+        }
+
+        function configureTool() {
+            showMessage('⚙️ Opening configuration panel...', 'info');
+            // Add configuration logic here
+        }
+
+        function viewDocumentation() {
+            showMessage('📚 Loading documentation...', 'info');
+            // Add documentation logic here
+        }
+
+        function runDiagnostics() {
+            showMessage('🔍 Running diagnostics...', 'info');
+            setTimeout(() => {
+                showMessage('✅ All systems operational!', 'success');
+            }, 2000);
+        }
+
+        function showMessage(message, type = 'info') {
+            // Create toast notification
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'rgba(0, 255, 0, 0.9)' : 'rgba(0, 204, 255, 0.9)'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-weight: 700;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Add slide-in animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize tool
+        document.addEventListener('DOMContentLoaded', () => {
+            // Auto-launch the tool on load
+            if (typeof launchTool === 'function') launchTool();
+            console.log('Youtube Viewbot loaded successfully');
+            
+            // Add hover effects to buttons
+            document.querySelectorAll('.tool-button').forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px) scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

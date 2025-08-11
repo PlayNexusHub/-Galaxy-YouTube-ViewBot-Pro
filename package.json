@@ -1,0 +1,43 @@
+{
+  "name": "youtube-viewbot-pro",
+  "version": "3.0.0",
+  "description": "Advanced YouTube view generation tool with AI-powered features",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "youtube",
+    "viewbot",
+    "automation",
+    "social-media",
+    "nexushub",
+    "views",
+    "bot"
+  ],
+  "author": "NexusHub",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexushub/youtube-viewbot-pro"
+  },
+  "bugs": {
+    "url": "https://github.com/nexushub/youtube-viewbot-pro/issues"
+  },
+  "homepage": "https://github.com/nexushub/youtube-viewbot-pro#readme"
+} 
